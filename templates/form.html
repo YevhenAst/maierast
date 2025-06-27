@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% if employee %}Mitarbeiter bearbeiten{% else %}Neuen Mitarbeiter hinzufügen{% endif %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { max-width: 700px; margin: 30px auto; font-family: Arial, sans-serif; }
+        label { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>{% if employee %}Mitarbeiter bearbeiten{% else %}Neuen Mitarbeiter hinzufügen{% endif %}</h1>
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="FirstName" class="form-label">Vorname:</label>
+            <input type="text" class="form-control" id="FirstName" name="FirstName" required
+                   value="{{ employee.FirstName if employee else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="LastName" class="form-label">Nachname:</label>
+            <input type="text" class="form-control" id="LastName" name="LastName" required
+                   value="{{ employee.LastName if employee else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="Telephone" class="form-label">Telefon:</label>
+            <input type="text" class="form-control" id="Telephone" name="Telephone"
+                   value="{{ employee.Telephone if employee else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="Email" class="form-label">E-Mail:</label>
+            <input type="email" class="form-control" id="Email" name="Email"
+                   value="{{ employee.Email if employee else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="BirthDate" class="form-label">Geburtsdatum:</label>
+            <input type="date" class="form-control" id="BirthDate" name="BirthDate"
+                   value="{{ employee.BirthDate.strftime('%Y-%m-%d') if employee and employee.BirthDate else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="Benutzername" class="form-label">Benutzername:</label>
+            <input type="text" class="form-control" id="Benutzername" name="Benutzername"
+                   value="{{ employee.Benutzername if employee else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="DepartmentID" class="form-label">Abteilung:</label>
+            <select class="form-select" id="DepartmentID" name="DepartmentID" required>
+                <option value="">Bitte wählen</option>
+                {% for dept in departments %}
+                    <option value="{{ dept.DepartmentID }}"
+                        {% if employee and employee.DepartmentID == dept.DepartmentID %}selected{% endif %}>
+                        {{ dept.DepartmentName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="PositionID" class="form-label">Position:</label>
+            <select class="form-select" id="PositionID" name="PositionID" required>
+                <option value="">Bitte wählen</option>
+                {% for pos in positions %}
+                    <option value="{{ pos.PositionID }}"
+                        {% if employee and employee.PositionID == pos.PositionID %}selected{% endif %}>
+                        {{ pos.PositionName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <h3>Vertragsdaten</h3>
+        <div class="mb-3">
+            <label for="Vertragsbeginn" class="form-label">Vertragsbeginn:</label>
+            <input type="date" class="form-control" id="Vertragsbeginn" name="Vertragsbeginn"
+                   value="{{ employee.Vertragsbeginn.strftime('%Y-%m-%d') if employee and employee.Vertragsbeginn else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="Vertragsende" class="form-label">Vertragsende:</label>
+            <input type="date" class="form-control" id="Vertragsende" name="Vertragsende"
+                   value="{{ employee.Vertragsende.strftime('%Y-%m-%d') if employee and employee.Vertragsende else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="Gehalt" class="form-label">Gehalt (€):</label>
+            <input type="number" step="0.01" class="form-control" id="Gehalt" name="Gehalt"
+                   value="{{ employee.Gehalt if employee and employee.Gehalt else '' }}">
+        </div>
+
+        <button type="submit" class="btn btn-success">{% if employee %}Speichern{% else %}Hinzufügen{% endif %}</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Abbrechen</a>
+    </form>
+</body>
+</html>

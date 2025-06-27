@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <title>Informationen zu {{ employee.FirstName }} {{ employee.LastName }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { max-width: 700px; margin: 30px auto; font-family: Arial, sans-serif; }
+        table th { width: 150px; }
+    </style>
+</head>
+<body>
+    <h1>Informationen zu {{ employee.FirstName }} {{ employee.LastName }}</h1>
+    <table class="table table-bordered mt-3">
+        <tbody>
+            <tr><th>Email</th><td>{{ employee.Email or '–' }}</td></tr>
+            <tr><th>Telefon</th><td>{{ employee.Telephone or '–' }}</td></tr>
+            <tr><th>Geburtsdatum</th><td>{{ employee.BirthDate.strftime('%d.%m.%Y') if employee.BirthDate else '–' }}</td></tr>
+            <tr><th>Benutzername</th><td>{{ employee.Benutzername or '–' }}</td></tr>
+            <tr><th>Abteilung</th><td>{{ employee.DepartmentName or '–' }}</td></tr>
+            <tr><th>Position</th><td>{{ employee.PositionName or '–' }}</td></tr>
+            <tr><th>Adresse</th><td>{{ adresse }}</td></tr>
+            <tr><th>Büro</th><td>{{ büro }}</td></tr>
+            <tr><th>Vertragsbeginn</th><td>{{ vertragsbeginn }}</td></tr>
+            <tr><th>Vertragsende</th><td>{{ vertragsende }}</td></tr>
+            <tr><th>Gehalt</th><td>{{ gehalt }}</td></tr>
+        </tbody>
+    </table>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">🔙 Zurück</a>
+    <a href="{{ url_for('edit_employee', employee_id=employee.EmployeeID) }}" class="btn btn-primary">Bearbeiten</a>
+</body>
+</html>
